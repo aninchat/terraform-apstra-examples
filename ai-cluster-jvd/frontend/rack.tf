@@ -1,8 +1,8 @@
 # first retrieve ID of Logical Device for leaf/spine (5220-32c)
-# this is AOS-24x100+8x400-1
+# this is AOS-26x100+6x400-1 for leafs a AOS-32x400G-2 for spines
 
-data "apstra_logical_device" "frontend_devices" {
-    name = "AOS-24x100+8x400-1"
+data "apstra_logical_device" "frontend_leafs" {
+    name = "AOS-26x100+6x400-1"
 }
 
 resource "apstra_rack_type" "frontend_rack" {
@@ -11,12 +11,12 @@ resource "apstra_rack_type" "frontend_rack" {
   fabric_connectivity_design = "l3clos"
   leaf_switches = {
     leaf1 = { // "leaf switch" on this line is the name used by links targeting this switch.
-      logical_device_id   = data.apstra_logical_device.frontend_devices.id
+      logical_device_id   = data.apstra_logical_device.frontend_leafs.id
       spine_link_count    = 2
       spine_link_speed    = "400G"
     },
     leaf2 = { // "leaf switch" on this line is the name used by links targeting this switch.
-      logical_device_id   = data.apstra_logical_device.frontend_devices.id
+      logical_device_id   = data.apstra_logical_device.frontend_leafs.id
       spine_link_count    = 2
       spine_link_speed    = "400G"
     }

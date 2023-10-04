@@ -1,4 +1,4 @@
-#create local set to loop over and create tags
+# create local set to loop over and create tags
 
 locals {
   hosts = toset([
@@ -10,7 +10,7 @@ locals {
 }
 
 # description is important otherwise TF thinks tags must be updated
-# in place every time
+# in place every time with an empty string
 
 resource "apstra_tag" "host_tags" {
     for_each    = local.hosts

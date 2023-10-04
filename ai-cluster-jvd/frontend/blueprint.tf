@@ -1,26 +1,20 @@
-# find interface map ID for LD AOS-24x100+8x400-1
-
-data "apstra_interface_map" "im_details" {
-    name = "Juniper_QFX5130-32CD__AOS-24x100_8x400-1"
-}
-
 # create local grouping of leafs and spines and their IMs
 
 locals {
     leafs = {
         ai_frontend_001_leaf1 = {
-            initial_interface_map_id = data.apstra_interface_map.im_details.id
+            initial_interface_map_id = apstra_interface_map.qfx5220_im.id # retrieved from interface map created for 5220-32C
         }
         ai_frontend_001_leaf2 = {
-            initial_interface_map_id = data.apstra_interface_map.im_details.id
+            initial_interface_map_id = apstra_interface_map.qfx5220_im.id # retrieved from interface map created for 5220-32C
         }
     }
     spines = {
         spine1 = {
-            initial_interface_map_id = data.apstra_interface_map.im_details.id
+            initial_interface_map_id = "Juniper_QFX5220-32CD__AOS-32x400-2" # spines are just 32x400G LDs
         }
         spine2 = {
-            initial_interface_map_id = data.apstra_interface_map.im_details.id
+            initial_interface_map_id = "Juniper_QFX5220-32CD__AOS-32x400-2" # spines are just 32x400G LDs
         }
     }
 }
