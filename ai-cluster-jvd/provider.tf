@@ -9,7 +9,7 @@ terraform {
 # provider details
 
 provider "apstra" {
-    url = "https://username:password@ip-address:443"
+    url = "https://admin:Embe1mpls!Embe1mpls!@192.168.122.35:443"
     tls_validation_disabled = true
     blueprint_mutex_enabled = false
     experimental = true

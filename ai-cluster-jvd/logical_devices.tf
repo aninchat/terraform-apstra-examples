@@ -94,6 +94,31 @@ resource "apstra_logical_device" "A100-GPU_8x200G" {
   ]
 }
 
+# Logical Device for Nvidia A100 GPU connection for Storage network
+
+resource "apstra_logical_device" "A100-Storage_1x200G" {
+  name = "A100 Server Storage 1x200G"
+  panels = [
+    {
+      rows    = 1
+      columns = 1
+      port_groups = [
+        {
+          port_count = 1
+          port_speed = "200G"
+          port_roles = ["leaf", "access"]
+        },
+      ]
+    }
+  ]
+}
+
+# NVIDIA DGX H100
+#
+# Standard networking: 1x 100 Gb/s Ethernet
+# Storage Networking: 2x QSPF112 400 Gb/s InfiniBand/Ethernet, 
+# GPUDirect RDMA Networking: 4x OSFP ports serving 8x single-port NVIDIA ConnectX-7 VPI 400 Gb/s InfiniBand/Ethernet
+
 # Logical Device for Nvidia H100 GPU connection for backend network
 # this is 1x400G connection uplink to each leaf, which means 8x400G per stripe
 
@@ -106,6 +131,23 @@ resource "apstra_logical_device" "H100-GPU_8x400G" {
       port_groups = [
         {
           port_count = 8
+          port_speed = "400G"
+          port_roles = ["leaf", "access"]
+        },
+      ]
+    }
+  ]
+}
+
+resource "apstra_logical_device" "H100-Storage_2x400G" {
+  name = "H100 Server Storage 2x400G"
+  panels = [
+    {
+      rows    = 1
+      columns = 2
+      port_groups = [
+        {
+          port_count = 2
           port_speed = "400G"
           port_roles = ["leaf", "access"]
         },

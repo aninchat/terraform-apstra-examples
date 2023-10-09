@@ -34,6 +34,19 @@ data "apstra_datacenter_ct_ip_link" "backend_to_gpu" {
   ipv6_addressing_type = "none"
 }
 
+# create IP Link data source for CT for storage L3 connections down to GPU Storage links and Weka Storage
+# find ID of default routing zone for this
+
+data "apstra_datacenter_routing_zone" "storage_default_rz" {
+  blueprint_id = apstra_datacenter_blueprint.storage_blueprint.id
+  name           = "default"
+}
+
+data "apstra_datacenter_ct_ip_link" "l3_to_storage" {
+  routing_zone_id      = data.apstra_datacenter_routing_zone.storage_default_rz.id
+  ipv4_addressing_type = "numbered"
+  ipv6_addressing_type = "none"
+}
 
 # create actual frontend CT for VNs now by attaching the primitive from the data source
 
@@ -81,6 +94,15 @@ resource "apstra_datacenter_connectivity_template" "backend_to_gpu_l3_ct" {
   description  = "L3 link to GPUs for IP connectivity in IP Fabric"
   primitives   = [
     data.apstra_datacenter_ct_ip_link.backend_to_gpu.primitive
+  ]
+}
+
+resource "apstra_datacenter_connectivity_template" "storage_l3_ct" {
+  blueprint_id = apstra_datacenter_blueprint.storage_blueprint.id
+  name         = "L3_to_Storage"
+  description  = "L3 link to Storage nodes for IP connectivity in IP Fabric"
+  primitives   = [
+    data.apstra_datacenter_ct_ip_link.l3_to_storage.primitive
   ]
 }
 
@@ -180,7 +202,7 @@ resource "apstra_datacenter_connectivity_template_assignment" "frontend_assign_c
 }
 
 resource "apstra_datacenter_connectivity_template_assignment" "frontend_assign_ct_storage" {
-  count = apstra_rack_type.frontend_rack.generic_systems.Storage_Frontend.count
+  count = apstra_rack_type.frontend_rack.generic_systems.Weka_Storage_Frontend.count
   blueprint_id              = apstra_datacenter_blueprint.frontend_blueprint.id
   application_point_id      = tolist(data.apstra_datacenter_interfaces_by_link_tag.storage.ids)[count.index]
   connectivity_template_ids = [

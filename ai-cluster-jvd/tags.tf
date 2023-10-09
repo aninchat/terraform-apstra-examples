@@ -9,7 +9,10 @@ locals {
     "qfx5220_a100_gpu",
     "qfx5220_h100_gpu",
     "qfx5230_a100_gpu",
-    "qfx5230_h100_gpu"
+    "qfx5230_h100_gpu",
+    "a100_storage",
+    "h100_storage",
+    "weka_storage"
   ])
 }
 
