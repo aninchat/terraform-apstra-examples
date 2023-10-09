@@ -23,3 +23,25 @@ resource "apstra_asn_pool" "asn_pool" {
     }
   ]
 }
+
+# IP pools for L3 links to GPUs for Backend Network
+
+resource "apstra_ipv4_pool" "l3_to_gpu" {
+  name = "l3_to_gpu"
+  subnets = [
+    { network = "172.16.10.0/24" },
+    { network = "172.16.11.0/24" },
+    { network = "172.16.12.0/24" }
+  ]
+}
+
+# IP pools for L3 links to Storage for Storage Network
+
+resource "apstra_ipv4_pool" "l3_to_storage" {
+  name = "l3_to_storage"
+  subnets = [
+    { network = "172.16.20.0/24" },
+    { network = "172.16.21.0/24" },
+    { network = "172.16.22.0/24" }
+  ]
+}

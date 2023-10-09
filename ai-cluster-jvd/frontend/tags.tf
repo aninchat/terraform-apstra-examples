@@ -2,10 +2,14 @@
 
 locals {
   hosts = toset([
-    "a100",
-    "storage",
-    "h100",
-    "headend"
+    "frontend_a100",
+    "frontend_storage",
+    "frontend_h100",
+    "frontend_headend",
+    "qfx5220_a100_gpu",
+    "qfx5220_h100_gpu",
+    "qfx5230_a100_gpu",
+    "qfx5230_h100_gpu"
   ])
 }
 

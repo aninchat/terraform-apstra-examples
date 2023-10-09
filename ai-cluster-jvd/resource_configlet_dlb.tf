@@ -59,40 +59,40 @@
 # for load-balance per-packet has nothing to do with the DLB mode of per-packet.
 # It must be left as is for flowlet DLB mode as well
 
-locals {
-  cfg_data = {
-    name = "DLB for AI leaves"
-    generators = [
-      {
-        config_style  = "junos"
-        section       = "top_level_hierarchical"
-        template_text = <<-EOT
-            forwarding-options {
-              enhanced-hash-key {
-                ecmp-dlb {
-                  flowlet {
-                    inactivity-interval 16;
-                  }
-                  ether-type {
-                    ipv4;
-                  }
-                }
-              }
-              hash-key {
-                family inet {
-                  layer-3;
-                  layer-4;
-                }
-              }
-            }
-            EOT
-      },
-    ]
-  }
-}
-# Create Catalog Configlet
-resource "apstra_configlet" "DLBForLeaf" {
-  name       = local.cfg_data.name
-  generators = local.cfg_data.generators
-}
+# locals {
+#   cfg_data = {
+#     name = "DLB for AI leaves"
+#     generators = [
+#       {
+#         config_style  = "junos"
+#         section       = "top_level_hierarchical"
+#         template_text = <<-EOT
+#             forwarding-options {
+#               enhanced-hash-key {
+#                 ecmp-dlb {
+#                   flowlet {
+#                     inactivity-interval 16;
+#                   }
+#                   ether-type {
+#                     ipv4;
+#                   }
+#                 }
+#               }
+#               hash-key {
+#                 family inet {
+#                   layer-3;
+#                   layer-4;
+#                 }
+#               }
+#             }
+#             EOT
+#       },
+#     ]
+#   }
+# }
+# # Create Catalog Configlet
+# resource "apstra_configlet" "DLBForLeaf" {
+#   name       = local.cfg_data.name
+#   generators = local.cfg_data.generators
+# }
 

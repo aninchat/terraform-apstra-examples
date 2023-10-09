@@ -3,14 +3,14 @@
 data "apstra_datacenter_virtual_network_binding_constructor" "leaf1" {
   blueprint_id = apstra_datacenter_blueprint.frontend_blueprint.id
   switch_ids   = [
-    apstra_datacenter_device_allocation.assigned_leafs["ai_frontend_001_leaf1"].node_id
+    apstra_datacenter_device_allocation.assigned_frontend_leafs["frontend_001_leaf1"].node_id
     ]
 }
 
 data "apstra_datacenter_virtual_network_binding_constructor" "leaf2" {
   blueprint_id = apstra_datacenter_blueprint.frontend_blueprint.id
   switch_ids   = [
-    apstra_datacenter_device_allocation.assigned_leafs["ai_frontend_001_leaf2"].node_id
+    apstra_datacenter_device_allocation.assigned_frontend_leafs["frontend_001_leaf2"].node_id
     ]
 }
 
@@ -23,7 +23,7 @@ data "apstra_datacenter_routing_zone" "default" {
 
 # create virtual networks in blueprint
 
-resource "apstra_datacenter_virtual_network" "a100_vn" {
+resource "apstra_datacenter_virtual_network" "frontend_a100_vn" {
   name                         = "A100_VN"
   blueprint_id                 = apstra_datacenter_blueprint.frontend_blueprint.id
   type                         = "vlan"
@@ -34,7 +34,7 @@ resource "apstra_datacenter_virtual_network" "a100_vn" {
   bindings = data.apstra_datacenter_virtual_network_binding_constructor.leaf1.bindings
 }
 
-resource "apstra_datacenter_virtual_network" "h100_vn" {
+resource "apstra_datacenter_virtual_network" "frontend_h100_vn" {
   name                         = "H100_VN"
   blueprint_id                 = apstra_datacenter_blueprint.frontend_blueprint.id
   type                         = "vlan"
@@ -45,7 +45,7 @@ resource "apstra_datacenter_virtual_network" "h100_vn" {
   bindings = data.apstra_datacenter_virtual_network_binding_constructor.leaf1.bindings
 }
 
-resource "apstra_datacenter_virtual_network" "headend_vn" {
+resource "apstra_datacenter_virtual_network" "frontend_headend_vn" {
   name                         = "Headend_VN"
   blueprint_id                 = apstra_datacenter_blueprint.frontend_blueprint.id
   type                         = "vlan"
@@ -56,7 +56,7 @@ resource "apstra_datacenter_virtual_network" "headend_vn" {
   bindings = data.apstra_datacenter_virtual_network_binding_constructor.leaf1.bindings
 }
 
-resource "apstra_datacenter_virtual_network" "storage_vn" {
+resource "apstra_datacenter_virtual_network" "frontend_storage_vn" {
   name                         = "Storage_VN"
   blueprint_id                 = apstra_datacenter_blueprint.frontend_blueprint.id
   type                         = "vlan"
