@@ -140,12 +140,23 @@ resource "apstra_interface_map" "AI-Leaf-QFX5220_26x100_6x400_IM" {
   interfaces        = flatten([local.qfx5220_frontend_interfaces])
 }
 
+# create PTX device profile from base PTX10008 chassis profile
+
+resource "apstra_modular_device_profile" "PTX10008_72x400_DP" {
+  name               = "PTX10008_72x400"
+  chassis_profile_id = "Juniper_PTX10008"
+  line_card_profile_ids = {
+    0 = "Juniper_PTX10K_LC1201_36CD"
+    1 = "Juniper_PTX10K_LC1201_36CD"
+  }
+}
+
 # Interface Map for a PTX10008 with 2xPTX10K-LC1201-36CD used in the AI Backend network as spines
 
 resource "apstra_interface_map" "AI-Spine-PTX10008_72x400_IM" {
   name              = "PTX10008_72x400G____AI-Spine 72x400"
   logical_device_id = apstra_logical_device.AI-Spine-PTX_72x400.id
-  device_profile_id = "8be924bc-f871-4b8e-92f3-e5292d5e9cd7"
+  device_profile_id = apstra_modular_device_profile.PTX10008_72x400_DP.id 
   interfaces        = flatten([local.ptx10008_backend_interfaces])
 }
 
